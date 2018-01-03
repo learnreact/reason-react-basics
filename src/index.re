@@ -2,19 +2,17 @@
 
 [@bs.module "./registerServiceWorker"] external register_service_worker : unit => unit = "default";
 
-/* day 3: statelessComponent */
+/* day 4: props are labelled arguments */
 module Greeting = {
   let component = ReasonReact.statelessComponent("Greeting");
 
-  let make = (_children) => {
+  /* props and default: https://reasonml.github.io/reason-react/docs/en/creation-props-self.html#props */
+  let make = (~name={j|🎄|j}, _children) => {
     ...component,
-    render: (_self) => <h1 className="some-class"> (ReasonReact.stringToElement({j|Hello 🎄|j})) </h1>
+    render: (_self) => <h1 className="some-class"> (ReasonReact.stringToElement("Hello " ++ name)) </h1>
   };
 };
 
-ReactDOMRe.renderToElementWithId(<Greeting />, "root");
-
-/* equivalent without JSX */
-/* ReactDOMRe.renderToElementWithId(ReasonReact.element(Greeting.make()), "root"); */
+ReactDOMRe.renderToElementWithId(<div> <Greeting /> <Greeting name="bulbasaur" /> </div>, "root");
 
 register_service_worker();
